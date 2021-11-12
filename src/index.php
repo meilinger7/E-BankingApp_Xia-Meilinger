@@ -33,12 +33,11 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-7  col-sm-12 ">
-                                        <a  id="button" class="btn" href="login.php" role="button">Log-Out</a>
+                                        <a  id="button" class="btn" href="login.php" role="button">Ausloggen</a>
 
                                     </div>
                                     <div class="col-md-5  col-sm-12 ">
-                                        <button  id="button" type="button" class="btn">Neue Überweisung</button>
-
+                                        <a  id="button" class="btn" href="transfer.php" role="button">Neue Überweisung</a>
                                     </div>
                                 </div>
                                 <div class="row" id="userData">
