@@ -5,5 +5,7 @@ Mockups: https://www.figma.com/file/SbbFvKemhH0fGIXdqgJcqd/Untitled?node-id=9%3A
 
 GitHub: https://github.com/meilinger7/E-BankingWebApp_Xia-Meilinger
 
+bon jorno
+
 
 
