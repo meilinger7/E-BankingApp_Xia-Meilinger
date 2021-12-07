@@ -1,3 +1,7 @@
+<?php
+require "func.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,35 +20,45 @@
 </head>
 
 <body>
+    <?php
+    $email = isset($_POST['email']) ? $_POST['email'] : "";
+    $password = isset($_POST['password']) ? $_POST['password'] : "";
+    ?>
 
     <div id="formStyle" class="container">
         <div id="formField">
             <h2>Registrieren</h2>
-            
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
 
+            <?php
+                if(isset($_POST['signin'])){
+                    if (validate($email, $password)) {
+                        //Weiterleitung an die index
+                    } else {
+                        echo "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!<ul>";
+                        foreach ($errors as $key => $value) {
+                            echo "<li>" . $value . "</li>";
+                        }
+                    }
+                    echo "</div>";
+                }
+                
+            ?>
+            <form action="signup.php" method="post">
+                <div class="input-group mb-3">
+                    <input type="email" name="email" class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>" placeholder="E-Mail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required="required">
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="password" class="form-control <?= isset($errors['password']) ? 'is-invalid' : ''  ?>" placeholder="Password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" minlength="5" maxlength="15" required="requiered">
+                </div>
 
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
+                <button id="button" name="signin" type="submit" class="btn">Registrieren</button>
 
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-
-            <button id="button" type="button" class="btn">Registrieren</button>
+            </form>
 
             <a class="link-light" href="login.php">Einloggen</a>
 
-      
         </div>
-
-
     </div>
-
-
 
 </body>
 

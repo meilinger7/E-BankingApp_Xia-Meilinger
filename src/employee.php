@@ -13,7 +13,7 @@ $password = "";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Banking App - Einloggen</title>
+    <title>E-Banking App - Einloggen Angestellter</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- bootstrap -->
@@ -42,7 +42,7 @@ $password = "";
     ?>
     <div id="formStyle" class="container">
         <div id="formField">
-            <h2>Login</h2>
+            <h2>Login für Angestellte</h2>
             <?php
                 echo $message;
                 ?>
@@ -58,8 +58,7 @@ $password = "";
 
                 <button id="button" name="login" type="submit" class="btn">Einloggen</button>
 
-                <a class="link-light" href="signup.php">Registrieren</a>
-                <a class="link-light" href="employee.php">als Angestellter anmelden</a>
+                <a class="link-light" href="login.php">als Kunde anmelden</a>
 
             </form>
 

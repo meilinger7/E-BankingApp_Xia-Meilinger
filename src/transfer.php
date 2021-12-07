@@ -1,3 +1,7 @@
+<?php
+session_start();
+require_once 'models/Benutzer.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,38 +20,45 @@
 </head>
 
 <body>
-
+    <?php
+    if (!Benutzer::isLoggedIn()) {
+        header("Location: login.php");
+        exit;
+    } else {
+        if (isset($_POST['transfer'])) {
+            header("Location: index.php");
+            exit;
+    }
+?>
     <div id="formStyle" class="container">
         <div id="formField">
             <h2>Überweisen</h2>
+            <form action="transfer.php" method="POST">
+                <div class="input-group mb-3">
+                    <input type="text" name="iban" class="form-control" placeholder="IBAN" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
 
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="IBAN" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
+                <div class="input-group mb-3">
+                    <input type="text" name="bic" class="form-control" placeholder="BIC" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
 
+                <div class="input-group mb-3">
+                    <input type="text" name="zahlungsFrequenz" class="form-control" placeholder="Zahlungsfrequenz" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
 
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="BIC" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
+                <div class="input-group mb-3">
+                    <textarea name="zweck" placeholder="Verwendungszweck" class="form-control" aria-label="With textarea"></textarea>
+                </div>
 
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Zahlungsfrequenz" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-
-            <div class="input-group mb-3">
-                <textarea placeholder="Verwendungszweck" class="form-control" aria-label="With textarea"></textarea>
-            </div>
-
-            <button id="button" type="button" class="btn">Senden</button>
-
-            <a class="link-light" href="index.php">zurück</a>
-
+                <button id="button" name="transfer" type="submit" class="btn">Senden</button>
+            </form>
+            <a href="index.php">zurück</a>
 
         </div>
-
-
     </div>
-
+    <?php
+    }
+    ?>
 
 
 </body>
