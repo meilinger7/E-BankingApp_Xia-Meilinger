@@ -59,7 +59,7 @@ if($db->connect_error){
                 <div class="input-group mb-3">
                     <input type="password" name="password" class="form-control <?= isset($errors['password']) ? 'is-invalid' : ''  ?>" placeholder="Password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" minlength="5" maxlength="15" required="requiered">
                 </div>
-                <button id="button" name="signin" type="submit" class="btn">Registrierenx</button>
+                <button id="button" name="signin" type="submit" class="btn">Registrieren</button>
 
             </form>
 
