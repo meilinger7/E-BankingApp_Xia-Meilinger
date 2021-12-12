@@ -1,5 +1,15 @@
 <?php
 require "func.php";
+$server = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "ebanking";
+
+$db = new mysqli($server,$user,$pass,$dbname);
+
+if($db->connect_error){
+    die("Verbindung fehlgeschlagen: " . $db->connect_error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +38,6 @@ require "func.php";
     <div id="formStyle" class="container">
         <div id="formField">
             <h2>Registrieren</h2>
-
             <?php
                 if(isset($_POST['signin'])){
                     if (validate($email, $password)) {
@@ -50,7 +59,6 @@ require "func.php";
                 <div class="input-group mb-3">
                     <input type="password" name="password" class="form-control <?= isset($errors['password']) ? 'is-invalid' : ''  ?>" placeholder="Password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" minlength="5" maxlength="15" required="requiered">
                 </div>
-
                 <button id="button" name="signin" type="submit" class="btn">Registrieren</button>
 
             </form>
@@ -59,6 +67,19 @@ require "func.php";
 
         </div>
     </div>
+
+    <?php
+        $mail = $_POST['email'];
+        $kennwort = $_POST['password'];
+
+        $sql = "INSERT INTO kunde (id, email, password)
+        VALUES ('', '$mail', '$kennwort')";
+
+        if(isset($mail) && isset($kennwort)){
+            $db->query($sql);
+            $db->close();
+        }
+    ?>
 
 </body>
 
