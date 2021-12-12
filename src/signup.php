@@ -40,20 +40,21 @@ require_once "database.php";
                         }
                     }
                     echo "</div>";
-                }
-                $mysqli = $db->query("SELECT * FROM kunde WHERE email = '$email'");
-                $count = $mysqli->num_rows;
-                $mysqli->close();
-                if($count == 0){
-                    $sql = "INSERT INTO kunde (id, email, passwort)
-                    VALUES ('', '$email', '$password')";
-                    if(isset($_POST['email']) && isset($_POST['kw'])){
-                        $db->query($sql);
-                        $db->close();
+                    $mysqli = $db->query("SELECT * FROM kunde WHERE email = '$email'");
+                    $count = $mysqli->num_rows;
+                    $mysqli->close();
+                    if($count == 0){
+                        $sql = "INSERT INTO kunde (id, email, passwort)
+                        VALUES ('', '$email', '$password')";
+                        if(isset($_POST['email']) && isset($_POST['kw'])){
+                            $db->query($sql);
+                            $db->close();
+                        }
+                    } else {
+                        echo "<div class='alert alert-danger'>Die Email ist schon vergeben!</div>";
                     }
-                } else {
-                    echo "<div class='alert alert-danger'>Die Email ist schon vergeben!</div>";
                 }
+                
             ?>
             <form action="signup.php" method="post">
                 <div class="input-group mb-3">
