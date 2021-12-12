@@ -32,7 +32,7 @@ $password = "";
         $mysqli = $db->query("SELECT * FROM kunde WHERE email = '$email'");
         $count = $mysqli->num_rows;
         $val = $mysqli->fetch_object();
-        if ($val->email != $email || $val->passwort != $password) {
+        if ($count == 0 || $val->passwort != $password) {
             $message = "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!</div>";
         } else {
             $_SESSION['login'] = true;
