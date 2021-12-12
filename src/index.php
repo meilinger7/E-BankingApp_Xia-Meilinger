@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'models/Benutzer.php';
+require_once 'database.php'
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,12 +22,13 @@ require_once 'models/Benutzer.php';
 
 <body>
     <?php
-    if (!Benutzer::isLoggedIn()) {
+    $login = $_SESSION['login'];
+    if (!isset($_SESSION['login'])) {
         header("Location: login.php");
         exit;
     } else {
         if (isset($_POST['signout'])) {
-            Benutzer::logout();
+            unset($_SESSION['login']);
             header("Location: login.php");
             exit;
         }

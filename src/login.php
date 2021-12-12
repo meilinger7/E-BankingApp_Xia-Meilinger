@@ -1,5 +1,6 @@
 <?php
 require_once "models/Benutzer.php";
+require_once "database.php";
 
 session_start();
 $message = "";
@@ -28,17 +29,16 @@ $password = "";
     if (isset($_POST['login'])) {
         $email = isset($_POST['email']) ? $_POST['email'] : "";
         $password = isset($_POST['password']) ? $_POST['password'] : "";
-        $user = Benutzer::get($email, $password);
-
-        if ($user == null) {
+        $mysqli = $db->query("SELECT * FROM kunde WHERE email = '$email'");
+        $count = $mysqli->num_rows;
+        $val = $mysqli->fetch_object();
+        if ($val->email != $email || $val->passwort != $password) {
             $message = "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!</div>";
         } else {
-            $user->login();
+            $_SESSION['login'] = true;
             header("Location: index.php");
-
         }
     }
-
     ?>
     <div id="formStyle" class="container">
         <div id="formField">
