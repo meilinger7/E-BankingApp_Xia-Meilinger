@@ -32,26 +32,25 @@ require_once "database.php";
             <?php
                 if(isset($_POST['signin'])){
                     if (validate($email, $password)) {
-                        //Weiterleitung an die index
+                        $mysqli = $db->query("SELECT * FROM kunde WHERE email = '$email'");
+                        $count = $mysqli->num_rows;
+                        $mysqli->close();
+                        if($count == 0){
+                            $sql = "INSERT INTO kunde (id, email, passwort)
+                            VALUES ('', '$email', '$password')";
+                            if(isset($_POST['email']) && isset($_POST['kw'])){
+                                $db->query($sql);
+                                $db->close();
+                            }
+                        } else {
+                            echo "<div class='alert alert-danger'>Die Email ist schon vergeben!</div>";
+                        }
                     } else {
                         echo "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!<ul>";
                         foreach ($errors as $key => $value) {
                             echo "<li>" . $value . "</li>";
                         }
-                    }
-                    echo "</div>";
-                    $mysqli = $db->query("SELECT * FROM kunde WHERE email = '$email'");
-                    $count = $mysqli->num_rows;
-                    $mysqli->close();
-                    if($count == 0){
-                        $sql = "INSERT INTO kunde (id, email, passwort)
-                        VALUES ('', '$email', '$password')";
-                        if(isset($_POST['email']) && isset($_POST['kw'])){
-                            $db->query($sql);
-                            $db->close();
-                        }
-                    } else {
-                        echo "<div class='alert alert-danger'>Die Email ist schon vergeben!</div>";
+                        echo "</div>";
                     }
                 }
                 
