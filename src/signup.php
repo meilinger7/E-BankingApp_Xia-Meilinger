@@ -23,7 +23,7 @@ require_once "database.php";
 <body>
     <?php
     $email = isset($_POST['email']) ? $_POST['email'] : "";
-    $password = isset($_POST['password']) ? $_POST['password'] : "";
+    $password = isset($_POST['kw']) ? $_POST['kw'] : "";
     ?>
 
     <div id="formStyle" class="container">
@@ -41,14 +41,26 @@ require_once "database.php";
                     }
                     echo "</div>";
                 }
-                
+                $mysqli = $db->query("SELECT * FROM kunde WHERE email = '$email'");
+                $count = $mysqli->num_rows;
+                $mysqli->close();
+                if($count == 0){
+                    $sql = "INSERT INTO kunde (id, email, passwort)
+                    VALUES ('', '$email', '$password')";
+                    if(isset($_POST['email']) && isset($_POST['kw'])){
+                        $db->query($sql);
+                        $db->close();
+                    }
+                } else {
+                    echo "<div class='alert alert-danger'>Die Email ist schon vergeben!</div>";
+                }
             ?>
             <form action="signup.php" method="post">
                 <div class="input-group mb-3">
                     <input type="email" name="email" class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>" placeholder="E-Mail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required="required">
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" name="password" class="form-control <?= isset($errors['password']) ? 'is-invalid' : ''  ?>" placeholder="Password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" minlength="5" maxlength="15" required="requiered">
+                    <input type="password" name="kw" class="form-control <?= isset($errors['kw']) ? 'is-invalid' : ''  ?>" placeholder="Password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" minlength="5" maxlength="15" required="requiered">
                 </div>
                 <button id="button" name="signin" type="submit" class="btn">Registrieren</button>
 
@@ -58,20 +70,6 @@ require_once "database.php";
 
         </div>
     </div>
-
-    <?php
-        $mail = $_POST['email'];
-        $kennwort = $_POST['password'];
-
-        $sql = "INSERT INTO kunde (id, email, password)
-        VALUES ('', '$mail', '$kennwort')";
-
-        if(isset($mail) && isset($kennwort)){
-            $db->query($sql);
-            $db->close();
-        }
-    ?>
-
 </body>
 
 </html>
