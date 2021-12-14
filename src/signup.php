@@ -32,15 +32,16 @@ require_once "database.php";
             <?php
                 if(isset($_POST['signin'])){
                     if (validate($email, $password)) {
-                        $mysqli = $db->query("SELECT * FROM kunde WHERE email = '$email'");
-                        $count = $mysqli->num_rows;
-                        $mysqli->close();
+                        $mysqli = $db->prepare("SELECT email FROM kunde WHERE email = ?");
+                        $mysqli->bind_param("s", $email);
+                        $mysqli->execute();
+                        $count = $mysqli->fetch();
                         if($count == 0){
-                            $sql = "INSERT INTO kunde (id, email, passwort)
-                            VALUES ('', '$email', '$password')";
                             if(isset($_POST['email']) && isset($_POST['kw'])){
-                                $db->query($sql);
-                                $db->close();
+                                $stmt = $db->prepare("INSERT INTO kunde (id, email, passwort) VALUES ('', ? , ?)");
+                                $stmt->bind_param("ss", $email, $password);
+                                $stmt->execute();
+                                echo "<div class='alert alert-success'>Erfolgreich Registriert!</div>";
                             }
                         } else {
                             echo "<div class='alert alert-danger'>Die Email ist schon vergeben!</div>";

@@ -3,7 +3,6 @@ require_once "models/Benutzer.php";
 require_once "database.php";
 
 session_start();
-$message = "";
 $email = "";
 $password = "";
 ?>
@@ -26,17 +25,21 @@ $password = "";
 
 <body>
     <?php
+    $message = "";
+    $count = "";
     if (isset($_POST['login'])) {
         $email = isset($_POST['email']) ? $_POST['email'] : "";
         $password = isset($_POST['password']) ? $_POST['password'] : "";
-        $mysqli = $db->query("SELECT * FROM kunde WHERE email = '$email'");
-        $count = $mysqli->num_rows;
-        $val = $mysqli->fetch_object();
-        if ($count == 0 || $val->passwort != $password) {
+        $mysqli = $db->prepare("SELECT email, passwort FROM kunde WHERE email = ? AND passwort = ?");
+        $mysqli->bind_param("ss", $email, $password);
+        $mysqli->execute();
+        $count = $mysqli->fetch();
+        if ($count == 0) {
             $message = "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!</div>";
         } else {
             $_SESSION['login'] = true;
             header("Location: index.php");
+            exit;
         }
     }
     ?>
@@ -45,7 +48,7 @@ $password = "";
             <h2>Login</h2>
             <?php
                 echo $message;
-                ?>
+            ?>
             <form action="login.php" method="POST">
 
                 <div class="input-group mb-3">
