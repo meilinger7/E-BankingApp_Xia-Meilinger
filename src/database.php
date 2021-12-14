@@ -35,7 +35,7 @@ function loginCheckEmployee($email, $password, $db){
 }
 
 function isEmailSet($email, $db){
-    $mysqli = $db->prepare("SELECT email FROM kunde WHERE email = ?");
+    $mysqli = $db->prepare("SELECT email FROM kunde WHERE email = ?"); 
     $mysqli->bind_param("s", $email);
     $mysqli->execute();
     $count = $mysqli->fetch();

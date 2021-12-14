@@ -29,7 +29,7 @@ $password = "";
     if (isset($_POST['login'])) {
         $email = isset($_POST['email']) ? $_POST['email'] : "";
         $password = isset($_POST['password']) ? $_POST['password'] : "";
-
+        
         if(loginCheckEmployee($email, $password, $db) == 0) {
             $message = "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!</div>";
         } else {
