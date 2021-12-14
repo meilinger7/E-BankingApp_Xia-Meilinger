@@ -1,5 +1,6 @@
 <?php
 require_once "models/Benutzer.php";
+require_once "database.php";
 
 session_start();
 $message = "";
@@ -28,14 +29,13 @@ $password = "";
     if (isset($_POST['login'])) {
         $email = isset($_POST['email']) ? $_POST['email'] : "";
         $password = isset($_POST['password']) ? $_POST['password'] : "";
-        $user = Benutzer::get($email, $password);
 
-        if ($user == null) {
+        if(loginCheckKunde($email, $password, $db) == 0) {
             $message = "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!</div>";
         } else {
-            $user->login();
+            $_SESSION['login'] = true;
             header("Location: index.php");
-
+            exit;
         }
     }
 
@@ -46,7 +46,7 @@ $password = "";
             <?php
                 echo $message;
                 ?>
-            <form action="login.php" method="POST">
+            <form action="employee.php" method="POST">
 
                 <div class="input-group mb-3">
                     <input type="email" name="email" class="form-control" placeholder="E-Mail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">

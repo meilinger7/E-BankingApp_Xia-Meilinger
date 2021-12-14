@@ -30,11 +30,8 @@ $password = "";
     if (isset($_POST['login'])) {
         $email = isset($_POST['email']) ? $_POST['email'] : "";
         $password = isset($_POST['password']) ? $_POST['password'] : "";
-        $mysqli = $db->prepare("SELECT email, passwort FROM kunde WHERE email = ? AND passwort = ?");
-        $mysqli->bind_param("ss", $email, $password);
-        $mysqli->execute();
-        $count = $mysqli->fetch();
-        if ($count == 0) {
+        
+        if (loginCheckKunde($email, $password, $db) == 0) {
             $message = "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!</div>";
         } else {
             $_SESSION['login'] = true;
