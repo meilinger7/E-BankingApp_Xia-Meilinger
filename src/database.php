@@ -17,16 +17,16 @@ if($db->connect_error){
 // $count = $mysqli->fetch();
 
 function loginCheckKunde($email, $password, $db){
-        $mysqli = $db->prepare("SELECT email, passwort FROM kunde WHERE email = ? AND passwort = ?");
-        $mysqli->bind_param("ss", $email, $password);
-        $mysqli->execute();
-        $count = $mysqli->fetch();
-        echo $count;
-        return $count;
+    $mysqli = $db->prepare("SELECT email, passwort FROM kunde WHERE email = ? AND passwort = ?");
+    $mysqli->bind_param("ss", $email, $password);
+    $mysqli->execute();
+    $count = $mysqli->fetch();
+    echo $count;
+    return $count;
 }
 
 function loginCheckEmployee($email, $password, $db){
-    $mysqli = $db->prepare("SELECT email, passwort FROM X WHERE email = ? AND passwort = ?");
+    $mysqli = $db->prepare("SELECT email, passwort FROM angestellte WHERE email = ? AND passwort = ?");
     $mysqli->bind_param("ss", $email, $password);
     $mysqli->execute();
     $count = $mysqli->fetch();

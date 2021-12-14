@@ -30,7 +30,7 @@ $password = "";
         $email = isset($_POST['email']) ? $_POST['email'] : "";
         $password = isset($_POST['password']) ? $_POST['password'] : "";
 
-        if(loginCheckKunde($email, $password, $db) == 0) {
+        if(loginCheckEmployee($email, $password, $db) == 0) {
             $message = "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!</div>";
         } else {
             $_SESSION['login'] = true;
