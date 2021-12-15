@@ -34,7 +34,7 @@ require_once "database.php";
                     if (validate($email, $password)) {
                         if(isEmailSet($email, $db) == 0){
                             if(isset($_POST['email']) && isset($_POST['kw'])){
-                                insertIntoDb($email, $password, $db);
+                                insertRegister($email, $password, $db);
                                 echo "<div class='alert alert-success'>Erfolgreich Registriert!</div>";
                             }
                         } else {

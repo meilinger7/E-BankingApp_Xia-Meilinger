@@ -21,7 +21,6 @@ function loginCheckKunde($email, $password, $db){
     $mysqli->bind_param("ss", $email, $password);
     $mysqli->execute();
     $count = $mysqli->fetch();
-    echo $count;
     return $count;
 }
 
@@ -30,7 +29,6 @@ function loginCheckEmployee($email, $password, $db){
     $mysqli->bind_param("ss", $email, $password);
     $mysqli->execute();
     $count = $mysqli->fetch();
-    echo $count;
     return $count;
 }
 
@@ -42,9 +40,11 @@ function isEmailSet($email, $db){
     return $count;
 }
 
-function insertIntoDb($email, $password, $db){
-    $stmt = $db->prepare("INSERT INTO kunde (id, email, passwort) VALUES ('', ? , ?)");
-    $stmt->bind_param("ss", $email, $password);
+function insertRegister($email, $password, $db){
+    $iban = generateIban($db);
+    $bic = generateBic($db);
+    $stmt = $db->prepare("INSERT INTO kunde (id, email, passwort, iban, bic) VALUES ('', ? , ?, ?, ?)");
+    $stmt->bind_param("ssss", $email, $password, $iban, $bic);
     $stmt->execute();
 }
 
@@ -56,4 +56,51 @@ function displayBankBalance($email, $db){
     $user = $result->fetch_assoc();
     return $user;
 }
+
+function generateIban($db){
+    $iban = "AT";
+    $number = "";
+    $result = 1;
+    while ($result != 0) {
+        for ($i=0; $i <= 14 ; $i++) { 
+            $number = rand(1, 9);
+            $iban = $iban . $number;
+        }
+        $stmt2 = $db->prepare("SELECT iban FROM kunde WHERE iban = ?");
+        $stmt2->bind_param("s", $iban);
+        $stmt2->execute();
+        $result = $stmt2->fetch();
+    }
+    return $iban;
+}
+
+function generateBic($db){
+    $bic = "AT";
+    // $bic = "AT";
+    // $number = "";
+    // $result = 1;
+    // while ($result != 0) {
+    //     for ($i=0; $i <=11 ; $i++) { 
+    //         $number = rand(1, 9);
+    //         $bic = $bic . $number;
+    //     }
+    //     $stmt2 = $db->prepare("SELECT bic FROM kunde WHERE bic = ?");
+    //     $stmt2->bind_param("s", $bic);
+    //     $stmt2->execute();
+    //     $result = $stmt2->fetch();
+    // }
+    return $bic;
+}
+
+function displayIban($email, $db){
+    $mysqli = $db->prepare("SELECT iban FROM kunde WHERE email = ?"); 
+    $mysqli->bind_param("s", $email);
+    $mysqli->execute();
+    $result = $mysqli->get_result();
+    $user = $result->fetch_assoc();
+    $iban = substr($user['iban'],0 ,4). " " . substr($user['iban'], 4, 4) . " " . substr($user['iban'], 8, 4) . " " . substr($user['iban'], 12, 4);
+    return $iban;
+}
+
+
 ?>

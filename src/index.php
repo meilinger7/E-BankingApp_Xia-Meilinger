@@ -61,7 +61,7 @@ require_once 'database.php';
                                     <div class="row" id="userData">
                                         <div class="col-md-7  col-sm-12 ">
                                             <h3><?php echo $login ?></h3>
-                                            <h4>AT XXXX XXXX XXXX XXXX</h4>
+                                            <h4><?php echo displayIban($login, $db)?></h4>
                                         </div>
                                         <div class="col-md-5  col-sm-12 ">
                                             <h2 id="moneySum"><?php echo displayBankBalance($login, $db)['kontostand']; ?></h2>

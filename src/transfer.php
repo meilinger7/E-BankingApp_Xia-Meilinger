@@ -21,7 +21,8 @@ require_once 'models/Benutzer.php';
 
 <body>
     <?php
-    if (!Benutzer::isLoggedIn()) {
+    $login = $_SESSION['login'];
+    if (!isset($_SESSION['login'])) {
         header("Location: login.php");
         exit;
     } else {
@@ -43,7 +44,7 @@ require_once 'models/Benutzer.php';
                 </div>
 
                 <div class="input-group mb-3">
-                    <input type="text" name="zahlungsFrequenz" class="form-control" placeholder="Zahlungsfrequenz" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <input type="text" name="betrag" class="form-control" placeholder="Betrag" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                 </div>
 
                 <div class="input-group mb-3">
@@ -51,8 +52,8 @@ require_once 'models/Benutzer.php';
                 </div>
 
                 <button id="button" name="transfer" type="submit" class="btn">Senden</button>
+                <a id="backButton" name="back" type="button" class="btn" href="index.php">zurück</a>
             </form>
-            <a href="index.php">zurück</a>
 
         </div>
     </div>
