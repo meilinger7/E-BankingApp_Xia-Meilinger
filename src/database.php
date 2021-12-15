@@ -48,6 +48,12 @@ function insertIntoDb($email, $password, $db){
     $stmt->execute();
 }
 
-
-
+function displayBankBalance($email, $db){
+    $mysqli = $db->prepare("SELECT kontostand FROM kunde WHERE email = ?"); 
+    $mysqli->bind_param("s", $email);
+    $mysqli->execute();
+    $result = $mysqli->get_result();
+    $user = $result->fetch_assoc();
+    return $user;
+}
 ?>

@@ -34,7 +34,7 @@ $password = "";
         if (loginCheckKunde($email, $password, $db) == 0) {
             $message = "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!</div>";
         } else {
-            $_SESSION['login'] = true;
+            $_SESSION['login'] = $email;
             header("Location: index.php");
             exit;
         }
