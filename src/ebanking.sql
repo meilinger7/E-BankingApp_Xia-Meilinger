@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 16. Dez 2021 um 08:55
--- Server-Version: 10.4.11-MariaDB
--- PHP-Version: 7.4.3
+-- Erstellungszeit: 16. Dez 2021 um 11:25
+-- Server-Version: 10.4.21-MariaDB
+-- PHP-Version: 7.3.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -49,6 +48,7 @@ INSERT INTO `angestellte` (`id`, `email`, `passwort`) VALUES
 
 CREATE TABLE `kunde` (
   `id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `passwort` varchar(255) NOT NULL,
   `kontostand` decimal(10,2) NOT NULL,
@@ -60,10 +60,11 @@ CREATE TABLE `kunde` (
 -- Daten für Tabelle `kunde`
 --
 
-INSERT INTO `kunde` (`id`, `email`, `passwort`, `kontostand`, `iban`, `bic`) VALUES
-(10, 'ming@gmx.at', 'TestiTest', '0.00', 'AT759777394812327', 'AT'),
-(11, 'julianmeilinger07@gmail.com', 'TestiTest', '0.00', 'AT464457215831825', 'AT'),
-(12, 'julian@gmail.com', 'TestiTest', '0.00', 'AT665681931667381', 'AT');
+INSERT INTO `kunde` (`id`, `username`, `email`, `passwort`, `kontostand`, `iban`, `bic`) VALUES
+(10, 'ming', 'ming@gmx.at', 'TestiTest', '0.00', 'AT759777394812327', 'AT'),
+(11, '', 'julianmeilinger07@gmail.com', 'TestiTest', '0.00', 'AT464457215831825', 'AT'),
+(12, '', 'julian@gmail.com', 'TestiTest', '0.00', 'AT665681931667381', 'AT'),
+(13, 'Mulian Jeilinger', 'muhewinger@gmail.com', 'TestiTest', '0.00', 'AT271314829938414', 'AT');
 
 --
 -- Indizes der exportierten Tabellen
@@ -95,7 +96,7 @@ ALTER TABLE `angestellte`
 -- AUTO_INCREMENT für Tabelle `kunde`
 --
 ALTER TABLE `kunde`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
