@@ -49,11 +49,11 @@ function isEmailSet($email, $db){
     return $count;
 }
 
-function insertRegister($username, $email, $password, $db){
+function insertRegister($firstname, $lastname, $email, $password, $db){
     $iban = generateIban($db);
     $bic = generateBic($db);
-    $stmt = $db->prepare("INSERT INTO kunde (id, username, email, passwort, iban, bic) VALUES ('', ? , ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $username, $email, $password, $iban, $bic);
+    $stmt = $db->prepare("INSERT INTO kunde (id, vorname, nachname, email, passwort, iban, bic) VALUES ('', ? , ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $firstname, $lastname, $email, $password, $iban, $bic);
     $stmt->execute();
 }
 

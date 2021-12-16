@@ -24,11 +24,11 @@ $errors = [];
         }
     }
 
-    function validateUsername($username){
+    function validateFirstname($firstname){
         global $errors;
 
-        if(!isset($username) || strlen($username) < 5 || strlen($username) > 20){
-            $errors['username'] = "Benutzername ungültig";
+        if(!isset($firstname) || strlen($firstname) < 1 || strlen($firstname) > 20){
+            $errors['firstname'] = "Vorname ungültig";
             return false;
         }
         else{
@@ -36,9 +36,21 @@ $errors = [];
         }
     }
 
-    function validate($username ,$email, $password)
+    function validateLastname($lastname){
+        global $errors;
+
+        if(!isset($lastname) || strlen($lastname) < 1 || strlen($lastname) > 20){
+            $errors['lastname'] = "Nachname ungültig";
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    function validate($firstname , $lastname ,$email, $password)
 {
-    return validateEmail($email) & validatePassword($password) & validateUsername($username);
+    return validateEmail($email) & validatePassword($password) & validateFirstname($firstname) & validateLastname($lastname);
 }
 
 
