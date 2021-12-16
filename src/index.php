@@ -60,8 +60,8 @@ require_once 'database.php';
                                     </div>
                                     <div class="row" id="userData">
                                         <div class="col-md-7  col-sm-12 ">
-                                            <h3><?php echo fetchAll($login, $db)['username']?></h3>
-                                            <h4><?php echo displayIban($login, $db)?></h4>
+                                            <h3><?php echo displayName($login, $db);?></h3>
+                                            <h4><?php echo displayIban($login, $db);?></h4>
                                         </div>
                                         <div class="col-md-5  col-sm-12 ">
                                             <h2 id="moneySum"><?php echo fetchAll($login, $db)['kontostand']; ?></h2>

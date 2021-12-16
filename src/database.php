@@ -98,5 +98,11 @@ function displayIban($email, $db){
     return $iban;
 }
 
+function displayName($email, $db){
+    $arrUser = fetchAll($email, $db);
+    $name = $arrUser['vorname'] . " " . $arrUser['nachname'];
+    return $name;
+}
+
 
 ?>
