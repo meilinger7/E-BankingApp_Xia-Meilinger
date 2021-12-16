@@ -24,9 +24,21 @@ $errors = [];
         }
     }
 
-    function validate($email, $password)
+    function validateUsername($username){
+        global $errors;
+
+        if(!isset($username) || strlen($username) < 5 || strlen($username) > 20){
+            $errors['username'] = "Benutzername ungültig";
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    function validate($username ,$email, $password)
 {
-    return validateEmail($email) & validatePassword($password);
+    return validateEmail($email) & validatePassword($password) & validateUsername($username);
 }
 
 

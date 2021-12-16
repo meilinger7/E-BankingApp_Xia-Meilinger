@@ -24,6 +24,7 @@ require_once "database.php";
     <?php
     $email = isset($_POST['email']) ? $_POST['email'] : "";
     $password = isset($_POST['kw']) ? $_POST['kw'] : "";
+    $username = isset($_POST['username']) ? $_POST['username'] : "";
     ?>
 
     <div id="formStyle" class="container">
@@ -31,10 +32,10 @@ require_once "database.php";
             <h2>Registrieren</h2>
             <?php
                 if(isset($_POST['signin'])){
-                    if (validate($email, $password)) {
+                    if (validate($username ,$email, $password)) {
                         if(isEmailSet($email, $db) == 0){
-                            if(isset($_POST['email']) && isset($_POST['kw'])){
-                                insertRegister($email, $password, $db);
+                            if(isset($_POST['email']) && isset($_POST['kw']) && isset($_POST['username'])){
+                                insertRegister($username, $email, $password, $db);
                                 echo "<div class='alert alert-success'>Erfolgreich Registriert!</div>";
                             }
                         } else {
@@ -51,6 +52,9 @@ require_once "database.php";
                 
             ?>
             <form action="signup.php" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" name="username" class="form-control <?= isset($errors['username']) ? 'is-invalid' : '' ?>" placeholder="Benutzername" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" minlength="1" maxlength="20" required="required">
+                </div>
                 <div class="input-group mb-3">
                     <input type="email" name="email" class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>" placeholder="E-Mail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required="required">
                 </div>

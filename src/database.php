@@ -16,6 +16,15 @@ if($db->connect_error){
 // $mysqli->execute();
 // $count = $mysqli->fetch();
 
+function fetchAll($email, $db){
+    $mysqli = $db->prepare("SELECT * FROM kunde WHERE email = ?");
+    $mysqli->bind_param("s", $email);
+    $mysqli->execute();
+    $result = $mysqli->get_result();
+    $assocresult = $result->fetch_assoc();
+    return $assocresult;
+}
+
 function loginCheckKunde($email, $password, $db){
     $mysqli = $db->prepare("SELECT email, passwort FROM kunde WHERE email = ? AND passwort = ?");
     $mysqli->bind_param("ss", $email, $password);
@@ -40,21 +49,12 @@ function isEmailSet($email, $db){
     return $count;
 }
 
-function insertRegister($email, $password, $db){
+function insertRegister($username, $email, $password, $db){
     $iban = generateIban($db);
     $bic = generateBic($db);
-    $stmt = $db->prepare("INSERT INTO kunde (id, email, passwort, iban, bic) VALUES ('', ? , ?, ?, ?)");
-    $stmt->bind_param("ssss", $email, $password, $iban, $bic);
+    $stmt = $db->prepare("INSERT INTO kunde (id, username, email, passwort, iban, bic) VALUES ('', ? , ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $username, $email, $password, $iban, $bic);
     $stmt->execute();
-}
-
-function displayBankBalance($email, $db){
-    $mysqli = $db->prepare("SELECT kontostand FROM kunde WHERE email = ?"); 
-    $mysqli->bind_param("s", $email);
-    $mysqli->execute();
-    $result = $mysqli->get_result();
-    $user = $result->fetch_assoc();
-    return $user;
 }
 
 function generateIban($db){
@@ -93,12 +93,8 @@ function generateBic($db){
 }
 
 function displayIban($email, $db){
-    $mysqli = $db->prepare("SELECT iban FROM kunde WHERE email = ?"); 
-    $mysqli->bind_param("s", $email);
-    $mysqli->execute();
-    $result = $mysqli->get_result();
-    $user = $result->fetch_assoc();
-    $iban = substr($user['iban'],0 ,4). " " . substr($user['iban'], 4, 4) . " " . substr($user['iban'], 8, 4) . " " . substr($user['iban'], 12, 4);
+    $user = fetchAll($email,$db)['iban'];
+    $iban = substr($user,0 ,4). " " . substr($user, 4, 4) . " " . substr($user, 8, 4) . " " . substr($user, 12, 4);
     return $iban;
 }
 
