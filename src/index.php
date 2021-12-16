@@ -64,7 +64,7 @@ require_once 'database.php';
                                             <h4><?php echo displayIban($login, $db);?></h4>
                                         </div>
                                         <div class="col-md-5  col-sm-12 ">
-                                            <h2 id="moneySum"><?php echo fetchAll($login, $db)['kontostand']; ?></h2>
+                                            <h2 id="moneySum"><?php echo fetchAll($login, $db)['kontostand'] . "€"; ?></h2>
                                         </div>
                                     </div>
                                 </div>
