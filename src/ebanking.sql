@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 16. Dez 2021 um 12:32
+-- Erstellungszeit: 21. Dez 2021 um 08:13
 -- Server-Version: 10.4.11-MariaDB
 -- PHP-Version: 7.4.3
 
@@ -63,7 +63,8 @@ CREATE TABLE `kunde` (
 --
 
 INSERT INTO `kunde` (`id`, `vorname`, `nachname`, `email`, `passwort`, `kontostand`, `iban`, `bic`) VALUES
-(15, 'Julian', 'Meilinger', 'meilinger07@gmail.com', 'TestiTest', '0.00', 'AT536187145261598', 'AT');
+(15, 'Julian', 'Meilinger', 'meilinger07@gmail.com', 'TestiTest', '-5.00', 'AT536187145261598', 'AT'),
+(16, 'Liuming', 'Xia', 'ming@gmx.at', 'TestiTest', '0.00', 'AT188198449643639', 'AT');
 
 --
 -- Indizes der exportierten Tabellen
@@ -95,7 +96,7 @@ ALTER TABLE `angestellte`
 -- AUTO_INCREMENT für Tabelle `kunde`
 --
 ALTER TABLE `kunde`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
