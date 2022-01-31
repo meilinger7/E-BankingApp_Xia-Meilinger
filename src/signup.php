@@ -1,6 +1,6 @@
 <?php
-require "func.php";
-require_once "database.php";
+require "lib/func.php";
+require_once "lib/database.php";
 ?>
 
 <!DOCTYPE html>

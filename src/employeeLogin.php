@@ -1,6 +1,5 @@
 <?php
-require_once "models/Benutzer.php";
-require_once "database.php";
+require_once "lib/database.php";
 
 session_start();
 $message = "";

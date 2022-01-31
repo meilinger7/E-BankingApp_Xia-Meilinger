@@ -1,7 +1,6 @@
 <?php
 session_start();
-require_once 'models/Benutzer.php';
-require_once 'database.php';
+require_once 'lib/database.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,6 +1,5 @@
 <?php
-require_once "models/Benutzer.php";
-require_once "database.php";
+require_once "lib/database.php";
 
 session_start();
 $email = "";
@@ -59,7 +58,7 @@ $password = "";
                 <button id="button" name="login" type="submit" class="btn">Einloggen</button>
 
                 <a class="link-light" href="signup.php">Registrieren</a>
-                <a class="link-light" href="employee.php">als Angestellter anmelden</a>
+                <a class="link-light" href="employeeLogin.php">als Angestellter anmelden</a>
 
             </form>
 
