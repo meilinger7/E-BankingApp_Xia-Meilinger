@@ -21,7 +21,11 @@ require_once 'lib/database.php';
 
 <body>
     <?php
-    $login = $_SESSION['employeeLogin'];
+    $email = $_SESSION['employeeLogin'];
+    $user = fetchAllEmployee($email, $db);
+    $id = $user['id'];
+    $email = $user['email'];
+
     if (!isset($_SESSION['employeeLogin'])) {
         header("Location: employeeLogin.php");
         exit;
@@ -31,6 +35,13 @@ require_once 'lib/database.php';
             header("Location: employeeLogin.php");
             exit;
         }
+        if (isset($_POST['abheben'])) {
+            abheben($_POST['iban'], $id, $_POST['betrag']);
+        }
+        if (isset($_POST['einzahlen'])) {
+            einzahlen($_POST['iban'], $id, $_POST['betrag']);
+        }
+
 
     ?>
         <div class="container">
@@ -46,7 +57,7 @@ require_once 'lib/database.php';
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-7  col-sm-12 ">
-                                            <h5>Julian Meilingerrrrrr</h5>
+                                            <h5><?php echo $email; ?></h5>
                                         </div>
                                         <div class="col-md-5  col-sm-12 ">
                                             <form action="employee.php" method="POST">

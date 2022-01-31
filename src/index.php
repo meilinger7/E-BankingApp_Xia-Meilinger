@@ -21,7 +21,16 @@ require_once 'lib/database.php';
 
 <body>
     <?php
-    $login = $_SESSION['login'];
+    $email = $_SESSION['login'];
+    $user = fetchAll($email, $db);
+    $id = $user['id'];
+    $kontostand = $user['kontostand'];
+    $displayName = displayName($user['vorname'], $user['nachname']);
+    $displayIban = displayIban($user['iban'], $db);
+
+
+
+
     if (!isset($_SESSION['login'])) {
         header("Location: login.php");
         exit;
@@ -56,11 +65,11 @@ require_once 'lib/database.php';
                                     </div>
                                     <div class="row" id="userData">
                                         <div class="col-md-7  col-sm-12 ">
-                                            <h3><?php echo displayName($login, $db);?></h3>
-                                            <h4><?php echo displayIban($login, $db);?></h4>
+                                            <h3><?php echo $displayName; ?></h3>
+                                            <h4><?php echo $displayIban; ?></h4>
                                         </div>
                                         <div class="col-md-5  col-sm-12 ">
-                                            <h2 id="moneySum"><?php echo fetchAll($login, $db)['kontostand'] . "€"; ?></h2>
+                                            <h2 id="moneySum"><?php echo $kontostand . "€"; ?></h2>
                                         </div>
                                     </div>
                                 </div>
@@ -75,37 +84,40 @@ require_once 'lib/database.php';
                     <h3>Letzte</h3>
                     <h3>Überweisungen:</h3>
                 </div>
+                <?php
+                $transaktionen = getTransaktionenById($id);
 
+                foreach ($transaktionen as &$transaktion) {
+                    if($transaktion['0']==$id){
+                        $transaktion['3'] = "- " . $transaktion['3'];
+                    }
+                    else{
+                        $transaktion['3'] = "+ " . $transaktion['3'];
+                    }
+                ?>
 
                 <div class="card">
                     <div class="card-body">
                         <div class="container">
                             <div class="row">
-                                <div class="col-4">
-                                    <h4>Interspar Imst</h4>
+                                <div class="col-3">
+                                    <h4><?php echo $transaktion['1']; ?></h4>
                                 </div>
-                                <div class="col-4">
-                                    <h4>20.10.2021</h4>
+                                <div class="col-6">
+                                    <h4><?php echo  $transaktion['2']; ?></h4>
                                 </div>
-                                <div class="col-4">
-                                    <h4>20,90 €</h4>
+                                <div class="col-3">
+                                    <h4><?php echo  $transaktion['3']; ?> €</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card box1">
-                    <div class="card-body">
-                        <h4>This is some text within a card body.</h4>
-                    </div>
-                </div>
+                <?php
+                }  
+                ?>
 
-                <div class="card box1">
-                    <div class="card-body">
-                        <h4>This is some text within a card body.</h4>
-                    </div>
-                </div>
             </div>
         </div>
     <?php

@@ -24,17 +24,18 @@ require_once "lib/database.php";
 <body>
     <?php
     $login = $_SESSION['login'];
+    
     if (!isset($_SESSION['login'])) {
         header("Location: login.php");
         exit;
     } else {
         if (isset($_POST['transfer'])) {
             $betrag = isset($_POST['betrag']) ? $_POST['betrag'] : "";
-            $senderIban = isset($_POST['iban']) ? $_POST['iban'] : "";
-            $empfaengerIban = fetchAll($login, $db)['iban'];
+            $senderIban = fetchAll($login, $db)['iban'];
+            $empfaengerIban = isset($_POST['iban']) ? $_POST['iban'] : "";
             $bic = isset($_POST['bic']) ? $_POST['bic'] : "";
             $zweck = isset($_POST['zweck']) ? $_POST['zweck'] : "";
-            
+
             transfer($betrag, $senderIban, $empfaengerIban, $bic, $zweck);
 
             header("Location: index.php");

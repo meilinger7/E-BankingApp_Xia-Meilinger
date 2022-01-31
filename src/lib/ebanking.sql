@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 31. Jan 2022 um 21:15
--- Server-Version: 10.4.22-MariaDB
--- PHP-Version: 7.3.33
+-- Erstellungszeit: 01. Feb 2022 um 00:38
+-- Server-Version: 10.4.13-MariaDB
+-- PHP-Version: 7.2.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -62,8 +62,8 @@ CREATE TABLE `kunde` (
 --
 
 INSERT INTO `kunde` (`id`, `vorname`, `nachname`, `email`, `passwort`, `kontostand`, `iban`, `bic`) VALUES
-(15, 'Julian', 'Meilinger', 'meilinger07@gmail.com', 'TestiTest', '-5.00', 'AT536187145261598', 'AT'),
-(16, 'Liuming', 'Xia', 'ming@gmx.at', 'TestiTest', '0.00', 'AT188198449643639', 'AT');
+(15, 'Julian', 'Meilinger', 'meilinger07@gmail.com', 'TestiTest', '204.09', 'AT536187145261598', 'AT'),
+(16, 'Liuming', 'Xia', 'ming@gmx.at', 'TestiTest', '-229.33', 'AT188198449643639', 'AT');
 
 -- --------------------------------------------------------
 
@@ -73,22 +73,49 @@ INSERT INTO `kunde` (`id`, `vorname`, `nachname`, `email`, `passwort`, `kontosta
 
 CREATE TABLE `transaktionen` (
   `id` int(11) NOT NULL,
-  `betrag` decimal(10,0) NOT NULL,
+  `betrag` decimal(10,2) NOT NULL,
   `sender_id` int(11) NOT NULL,
   `empfaenger_id` int(11) NOT NULL,
-  `BIC` varchar(256) NOT NULL,
-  `VerwendungsZ` varchar(256) NOT NULL
+  `bic` varchar(256) NOT NULL,
+  `zweck` varchar(256) NOT NULL,
+  `zeitstempel` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `transaktionen`
 --
 
-INSERT INTO `transaktionen` (`id`, `betrag`, `sender_id`, `empfaenger_id`, `BIC`, `VerwendungsZ`) VALUES
-(1, '20', 15, 16, '1234', 'LOL skins'),
-(2, '20', 15, 16, '1234', 'LOL skins'),
-(3, '56', 16, 15, '666', 'Almosen'),
-(6, '100', 15, 16, '555', 'Test');
+INSERT INTO `transaktionen` (`id`, `betrag`, `sender_id`, `empfaenger_id`, `bic`, `zweck`, `zeitstempel`) VALUES
+(22, '3.33', 16, 15, 'AT', 'Carta Blanca', '2022-01-31'),
+(23, '10.12', 16, 15, 'AT', 'Klesch koite delikatess', '2022-01-31'),
+(24, '10.12', 16, 15, 'AT', 'Hopfensmoothie', '2022-01-31'),
+(28, '10.12', 15, 16, 'AT', 'LOL skins', '2022-01-31');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `zahlungen`
+--
+
+CREATE TABLE `zahlungen` (
+  `id` int(11) NOT NULL,
+  `kunde` int(11) NOT NULL,
+  `angestellter` int(11) NOT NULL,
+  `betrag` decimal(10,2) NOT NULL,
+  `methode` tinyint(1) NOT NULL,
+  `zeitstempel` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Daten für Tabelle `zahlungen`
+--
+
+INSERT INTO `zahlungen` (`id`, `kunde`, `angestellter`, `betrag`, `methode`, `zeitstempel`) VALUES
+(14, 16, 1, '3.33', 0, '2022-02-01'),
+(15, 16, 1, '10.12', 0, '2022-02-01'),
+(16, 16, 1, '69.00', 0, '2022-02-01'),
+(17, 16, 1, '99.00', 1, '2022-02-01'),
+(18, 15, 1, '22.00', 1, '2022-02-01');
 
 --
 -- Indizes der exportierten Tabellen
@@ -115,6 +142,14 @@ ALTER TABLE `transaktionen`
   ADD KEY `empfaenger_id` (`empfaenger_id`);
 
 --
+-- Indizes für die Tabelle `zahlungen`
+--
+ALTER TABLE `zahlungen`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kunde` (`kunde`),
+  ADD KEY `angestellter` (`angestellter`);
+
+--
 -- AUTO_INCREMENT für exportierte Tabellen
 --
 
@@ -134,7 +169,13 @@ ALTER TABLE `kunde`
 -- AUTO_INCREMENT für Tabelle `transaktionen`
 --
 ALTER TABLE `transaktionen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT für Tabelle `zahlungen`
+--
+ALTER TABLE `zahlungen`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints der exportierten Tabellen
@@ -146,6 +187,13 @@ ALTER TABLE `transaktionen`
 ALTER TABLE `transaktionen`
   ADD CONSTRAINT `transaktionen_ibfk_1` FOREIGN KEY (`empfaenger_id`) REFERENCES `kunde` (`id`),
   ADD CONSTRAINT `transaktionen_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `kunde` (`id`);
+
+--
+-- Constraints der Tabelle `zahlungen`
+--
+ALTER TABLE `zahlungen`
+  ADD CONSTRAINT `zahlungen_ibfk_1` FOREIGN KEY (`angestellter`) REFERENCES `angestellte` (`id`),
+  ADD CONSTRAINT `zahlungen_ibfk_2` FOREIGN KEY (`kunde`) REFERENCES `kunde` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
