@@ -45,9 +45,6 @@ require_once 'lib/database.php';
                             <div id="userBox">
                                 <div class="container">
                                     <div class="row">
-
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-7  col-sm-12 ">
                                             <form action="index.php" method="POST">
                                                 <button id="button" name="signout" type="submit" class="btn">Ausloggen</button>

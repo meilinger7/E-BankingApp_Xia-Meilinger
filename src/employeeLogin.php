@@ -32,8 +32,8 @@ $password = "";
         if(loginCheckEmployee($email, $password, $db) == 0) {
             $message = "<div class='alert alert-danger'>Die eingegebenen Daten sind fehlerhaft!</div>";
         } else {
-            $_SESSION['login'] = true;
-            header("Location: index.php");
+            $_SESSION['employeeLogin'] = $email;
+            header("Location: employee.php");
             exit;
         }
     }
@@ -45,7 +45,7 @@ $password = "";
             <?php
                 echo $message;
                 ?>
-            <form action="employee.php" method="POST">
+            <form action="employeeLogin.php" method="POST">
 
                 <div class="input-group mb-3">
                     <input type="email" name="email" class="form-control" placeholder="E-Mail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">

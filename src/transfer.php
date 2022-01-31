@@ -29,36 +29,47 @@ require_once "lib/database.php";
         exit;
     } else {
         if (isset($_POST['transfer'])) {
+            $betrag = isset($_POST['betrag']) ? $_POST['betrag'] : "";
+            $senderIban = isset($_POST['iban']) ? $_POST['iban'] : "";
+            $empfaengerIban = fetchAll($login, $db)['iban'];
+            $bic = isset($_POST['bic']) ? $_POST['bic'] : "";
+            $zweck = isset($_POST['zweck']) ? $_POST['zweck'] : "";
+            
+            transfer($betrag, $senderIban, $empfaengerIban, $bic, $zweck);
+
             header("Location: index.php");
             exit;
-    }
-?>
-    <div id="formStyle" class="container">
-        <div id="formField">
-            <h2>Überweisen</h2>
-            <form action="transfer.php" method="POST">
-                <div class="input-group mb-3">
-                    <input type="text" name="iban" class="form-control" placeholder="IBAN" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                </div>
+        }
 
-                <div class="input-group mb-3">
-                    <input type="text" name="bic" class="form-control" placeholder="BIC" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                </div>
 
-                <div class="input-group mb-3">
-                    <input type="text" name="betrag" class="form-control" placeholder="Betrag" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                </div>
 
-                <div class="input-group mb-3">
-                    <textarea name="zweck" placeholder="Verwendungszweck" class="form-control" aria-label="With textarea"></textarea>
-                </div>
+    ?>
+        <div id="formStyle" class="container">
+            <div id="formField">
+                <h2>Überweisen</h2>
+                <form action="transfer.php" method="POST">
+                    <div class="input-group mb-3">
+                        <input type="text" name="iban" class="form-control" placeholder="IBAN" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
 
-                <button id="button" name="transfer" type="submit" class="btn">Senden</button>
-                <a id="backButton" name="back" type="button" class="btn" href="index.php">zurück</a>
-            </form>
+                    <div class="input-group mb-3">
+                        <input type="text" name="bic" class="form-control" placeholder="BIC" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
 
+                    <div class="input-group mb-3">
+                        <input type="text" name="betrag" class="form-control" placeholder="Betrag" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <textarea name="zweck" placeholder="Verwendungszweck" class="form-control" aria-label="With textarea"></textarea>
+                    </div>
+
+                    <button id="button" name="transfer" type="submit" class="btn">Senden</button>
+                    <a id="backButton" name="back" class="link-light" href="index.php">zurück</a>
+                </form>
+
+            </div>
         </div>
-    </div>
     <?php
     }
     ?>

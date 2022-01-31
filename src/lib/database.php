@@ -104,5 +104,30 @@ function displayName($email, $db){
     return $name;
 }
 
+function transfer($betrag, $senderIban, $empfaengerIban, $bic, $zweck){
+    global $db;
+
+    $sender = getIdFromIban($senderIban);
+    $empfaenger = getIdFromIban($empfaengerIban);
+    echo $sender;
+    echo $empfaenger;
+
+    $stmt = $db->prepare("INSERT INTO transaktionen (id, betrag, sender_id, empfaenger_id, bic, zweck) VALUES ('', ? , ?, ?, ?, ?)");
+    $stmt->bind_param("idiiss", $betrag, $sender, $empfaenger, $bic, $zweck);
+    $stmt->execute();
+}
+
+function getIdFromIban($iban){
+    global $db;
+    $id = '';
+
+    $mysqli = $db->prepare("SELECT id FROM kunde WHERE iban = ?");
+    $mysqli->bind_param("s", $iban);
+    $mysqli->execute();
+    $id = $mysqli->fetch();
+    
+    
+    return $id;
+}
 
 ?>
