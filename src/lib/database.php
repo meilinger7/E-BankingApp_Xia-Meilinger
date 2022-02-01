@@ -158,6 +158,11 @@ function abheben($iban, $angestellterId, $betrag)
     $stmt = $db->prepare("INSERT INTO zahlungen (id, kunde, angestellter, betrag, methode, zeitstempel) VALUES ('', ?, ?, ?, 0, ?)");
     $stmt->bind_param("iids", $kundeId, $angestellterId, $betrag, $timestamp);
     $stmt->execute();
+
+    //Abhebung
+    $stmt = $db->prepare("UPDATE kunde SET kontostand=kontostand-? WHERE id=?");
+    $stmt->bind_param("di", $betrag, $kundeId);
+    $stmt->execute();
 }
 
 function einzahlen($iban, $angestellterId, $betrag)
@@ -166,10 +171,14 @@ function einzahlen($iban, $angestellterId, $betrag)
     $timestamp = date("Y-m-d H:i:s");
     $kundeId = getIdFromIban($iban);
 
-
     //Insert into zahlungen / abhabeung
     $stmt = $db->prepare("INSERT INTO zahlungen (id, kunde, angestellter, betrag, methode, zeitstempel) VALUES ('', ?, ?, ?, 1, ?)");
     $stmt->bind_param("iids", $kundeId, $angestellterId, $betrag, $timestamp);
+    $stmt->execute();
+
+    //Einzahlung
+    $stmt = $db->prepare("UPDATE kunde SET kontostand=kontostand+? WHERE id=?");
+    $stmt->bind_param("di", $betrag, $kundeId);
     $stmt->execute();
 }
 
