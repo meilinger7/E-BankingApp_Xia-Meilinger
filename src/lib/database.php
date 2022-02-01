@@ -154,8 +154,6 @@ function abheben($iban, $angestellterId, $betrag)
     $kundeId = getIdFromIban($iban);
 
     if (checkIban($iban) > 0) {
-
-
         //Insert into zahlungen / abhabeung
         $stmt = $db->prepare("INSERT INTO zahlungen (id, kunde, angestellter, betrag, methode, zeitstempel) VALUES ('', ?, ?, ?, 0, ?)");
         $stmt->bind_param("iids", $kundeId, $angestellterId, $betrag, $timestamp);
@@ -166,7 +164,7 @@ function abheben($iban, $angestellterId, $betrag)
         $stmt->bind_param("di", $betrag, $kundeId);
         $stmt->execute();
     } else {
-        echo 'error';
+        echo '<h2>Iban nicht gefunden</h2>';
     }
 }
 
@@ -175,16 +173,19 @@ function einzahlen($iban, $angestellterId, $betrag)
     global $db;
     $timestamp = date("Y-m-d H:i:s");
     $kundeId = getIdFromIban($iban);
+    if (checkIban($iban) > 0) {
+        //Insert into zahlungen / abhabeung
+        $stmt = $db->prepare("INSERT INTO zahlungen (id, kunde, angestellter, betrag, methode, zeitstempel) VALUES ('', ?, ?, ?, 1, ?)");
+        $stmt->bind_param("iids", $kundeId, $angestellterId, $betrag, $timestamp);
+        $stmt->execute();
 
-    //Insert into zahlungen / abhabeung
-    $stmt = $db->prepare("INSERT INTO zahlungen (id, kunde, angestellter, betrag, methode, zeitstempel) VALUES ('', ?, ?, ?, 1, ?)");
-    $stmt->bind_param("iids", $kundeId, $angestellterId, $betrag, $timestamp);
-    $stmt->execute();
-
-    //Einzahlung
-    $stmt = $db->prepare("UPDATE kunde SET kontostand=kontostand+? WHERE id=?");
-    $stmt->bind_param("di", $betrag, $kundeId);
-    $stmt->execute();
+        //Einzahlung
+        $stmt = $db->prepare("UPDATE kunde SET kontostand=kontostand+? WHERE id=?");
+        $stmt->bind_param("di", $betrag, $kundeId);
+        $stmt->execute();
+    } else {
+        echo '<h2>Iban nicht gefunden</h2>';
+    }
 }
 
 
