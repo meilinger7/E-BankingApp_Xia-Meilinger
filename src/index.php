@@ -105,8 +105,11 @@ require_once 'lib/database.php';
                                             <div class="col-3">
                                                 <p><?php echo $transaktion['1']; ?></p>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-3">
                                                 <p><?php echo  $transaktion['2']; ?></p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p><?php echo  $transaktion['4'] . " " . $transaktion['5']; ?></p>
                                             </div>
                                             <div class="col-3">
                                                 <p><?php echo  $transaktion['3']; ?> €</p>

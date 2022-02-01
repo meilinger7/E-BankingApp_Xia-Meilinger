@@ -109,7 +109,7 @@ function generateBic($db)
     return $bic;
 }
 
-function displayIban($iban, $db)
+function displayIban($iban)
 {
     $nIban = substr($iban, 0, 4) . " " . substr($iban, 4, 4) . " " . substr($iban, 8, 4) . " " . substr($iban, 12, 4);
     return $nIban;
@@ -208,7 +208,7 @@ function getTransaktionenById($id)
 {
     global $db;
 
-    $mysqli = $db->prepare("SELECT sender_id, zeitstempel, zweck, betrag FROM transaktionen WHERE sender_id = ? OR empfaenger_id = ? ORDER BY zeitstempel DESC");
+    $mysqli = $db->prepare("SELECT t.sender_id, t.zeitstempel, t.zweck, t.betrag, k.vorname, k.nachname FROM transaktionen as t Join kunde as k on t.empfaenger_id = k.id WHERE t.sender_id = ? OR t.empfaenger_id = ? ORDER BY t.zeitstempel DESC");
     $mysqli->bind_param("ii", $id, $id);
     $mysqli->execute();
     $result = $mysqli->get_result();
