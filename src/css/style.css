@@ -94,8 +94,9 @@ h5 {
     color: white !important;
 }
 
-.card {
-    margin-top: 20px;
+#card {
+    margin-top: 20px !important;
+    height: 9vh;
 }
 
 #formStyle {

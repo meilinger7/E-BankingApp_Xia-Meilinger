@@ -78,46 +78,95 @@ require_once 'lib/database.php';
                     </div>
                 </div>
             </div>
-            <div>
+            <div class='container'>
+                <div class="row">
+                    <div class="col-6">
 
-                <div id="transactionList">
-                    <h3>Letzte</h3>
-                    <h3>Überweisungen:</h3>
-                </div>
-                <?php
-                $transaktionen = getTransaktionenById($id);
 
-                foreach ($transaktionen as &$transaktion) {
-                    if($transaktion['0']==$id){
-                        $transaktion['3'] = "- " . $transaktion['3'];
-                    }
-                    else{
-                        $transaktion['3'] = "+ " . $transaktion['3'];
-                    }
-                ?>
+                        <div id="transactionList">
+                            <h3>Letzte</h3>
+                            <h3>Überweisungen:</h3>
+                        </div>
+                        <?php
+                        $transaktionen = getTransaktionenById($id);
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-3">
-                                    <h4><?php echo $transaktion['1']; ?></h4>
-                                </div>
-                                <div class="col-6">
-                                    <h4><?php echo  $transaktion['2']; ?></h4>
-                                </div>
-                                <div class="col-3">
-                                    <h4><?php echo  $transaktion['3']; ?> €</h4>
+                        foreach ($transaktionen as &$transaktion) {
+                            if ($transaktion['0'] == $id) {
+                                $transaktion['3'] = "- " . $transaktion['3'];
+                            } else {
+                                $transaktion['3'] = "+ " . $transaktion['3'];
+                            }
+                        ?>
+
+                            <div class="card" id="card">
+                                <div class="card-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <p><?php echo $transaktion['1']; ?></p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><?php echo  $transaktion['2']; ?></p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p><?php echo  $transaktion['3']; ?> €</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                        <?php
+                        }
+                        ?>
                     </div>
+
+                    <div class="col-6">
+
+
+                        <div id="transactionList">
+                            <h3>Letzte</h3>
+                            <h3>Zahlungen:</h3>
+                        </div>
+                        <?php
+                        $zahlungen = getZahlungenById($id);
+
+                        foreach ($zahlungen as &$zahlung) {
+                            if ($zahlung['2'] == 0) {
+                                $zahlung['2'] = "Abhebung";
+                                $zahlung['3'] = "- " . $zahlung['3'];
+
+                            } else {
+                                $zahlung['2'] = "Einzahlung";
+                                $zahlung['3'] = "+ " . $zahlung['3'];
+                            }
+                        ?>
+
+                            <div class="card" id="card">
+                                <div class="card-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <p><?php echo $zahlung['1']; ?></p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><?php echo  $zahlung['2']; ?></p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p><?php echo  $zahlung['3']; ?> €</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <?php
+                        }
+                        
+                        ?>
+                    </div>
+
                 </div>
-
-                <?php
-                }  
-                ?>
-
             </div>
         </div>
     <?php

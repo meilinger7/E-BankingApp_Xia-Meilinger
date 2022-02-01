@@ -78,7 +78,7 @@ function generateIban($db)
     $number = "";
     $result = 1;
     while ($result != 0) {
-        for ($i = 0; $i <= 14; $i++) {
+        for ($i = 0; $i <= 13; $i++) {
             $number = rand(1, 9);
             $iban = $iban . $number;
         }
@@ -152,17 +152,22 @@ function abheben($iban, $angestellterId, $betrag)
     global $db;
     $timestamp = date("Y-m-d H:i:s");
     $kundeId = getIdFromIban($iban);
-    $me = true;
 
-    //Insert into zahlungen / abhabeung
-    $stmt = $db->prepare("INSERT INTO zahlungen (id, kunde, angestellter, betrag, methode, zeitstempel) VALUES ('', ?, ?, ?, 0, ?)");
-    $stmt->bind_param("iids", $kundeId, $angestellterId, $betrag, $timestamp);
-    $stmt->execute();
+    if (checkIban($iban) > 0) {
 
-    //Abhebung
-    $stmt = $db->prepare("UPDATE kunde SET kontostand=kontostand-? WHERE id=?");
-    $stmt->bind_param("di", $betrag, $kundeId);
-    $stmt->execute();
+
+        //Insert into zahlungen / abhabeung
+        $stmt = $db->prepare("INSERT INTO zahlungen (id, kunde, angestellter, betrag, methode, zeitstempel) VALUES ('', ?, ?, ?, 0, ?)");
+        $stmt->bind_param("iids", $kundeId, $angestellterId, $betrag, $timestamp);
+        $stmt->execute();
+
+        //Abhebung
+        $stmt = $db->prepare("UPDATE kunde SET kontostand=kontostand-? WHERE id=?");
+        $stmt->bind_param("di", $betrag, $kundeId);
+        $stmt->execute();
+    } else {
+        echo 'error';
+    }
 }
 
 function einzahlen($iban, $angestellterId, $betrag)
@@ -202,11 +207,35 @@ function getTransaktionenById($id)
 {
     global $db;
 
-    $mysqli = $db->prepare("SELECT sender_id, zeitstempel, zweck, betrag FROM transaktionen WHERE sender_id = ? OR empfaenger_id = ?");
+    $mysqli = $db->prepare("SELECT sender_id, zeitstempel, zweck, betrag FROM transaktionen WHERE sender_id = ? OR empfaenger_id = ? ORDER BY zeitstempel DESC");
     $mysqli->bind_param("ii", $id, $id);
     $mysqli->execute();
     $result = $mysqli->get_result();
     $transaktionen = $result->fetch_all();
 
     return $transaktionen;
+}
+
+function getZahlungenById($id)
+{
+    global $db;
+
+    $mysqli = $db->prepare("SELECT kunde, zeitstempel, methode, betrag FROM zahlungen WHERE kunde= ? ORDER BY zeitstempel DESC");
+    $mysqli->bind_param("i", $id);
+    $mysqli->execute();
+    $result = $mysqli->get_result();
+    $transaktionen = $result->fetch_all();
+
+    return $transaktionen;
+}
+
+function checkIban($iban)
+{
+    global $db;
+
+    $mysqli = $db->prepare("SELECT iban FROM kunde WHERE iban = ?");
+    $mysqli->bind_param("s", $iban);
+    $mysqli->execute();
+    $count = $mysqli->fetch();
+    return $count;
 }

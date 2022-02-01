@@ -26,6 +26,10 @@ $password = "";
     <?php
     $message = "";
     $count = "";
+    if (isset($_SESSION['login'])) {
+        header("Location: index.php");
+        exit;
+    }
     if (isset($_POST['login'])) {
         $email = isset($_POST['email']) ? $_POST['email'] : "";
         $password = isset($_POST['password']) ? $_POST['password'] : "";
